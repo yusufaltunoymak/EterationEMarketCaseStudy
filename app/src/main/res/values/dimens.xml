@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Margin-Padding -->
+    <dimen name="size0">0dp</dimen>
+    <dimen name="size1">2dp</dimen>
+    <dimen name="size2">4dp</dimen>
+    <dimen name="size3">6dp</dimen>
+    <dimen name="size4">8dp</dimen>
+    <dimen name="size5">10dp</dimen>
+    <dimen name="size6">12dp</dimen>
+    <dimen name="size7">14dp</dimen>
+    <dimen name="size8">16dp</dimen>
+    <dimen name="size9">18dp</dimen>
+    <dimen name="size10">20dp</dimen>
+    <dimen name="size11">22dp</dimen>
+    <dimen name="size12">24dp</dimen>
+    <dimen name="size13">26dp</dimen>
+    <dimen name="size14">28dp</dimen>
+    <dimen name="size15">30dp</dimen>
+    <dimen name="size16">32dp</dimen>
+    <dimen name="size17">34dp</dimen>
+    <dimen name="size18">36dp</dimen>
+    <dimen name="size19">38dp</dimen>
+    <dimen name="size20">40dp</dimen>
+    <dimen name="size21">42dp</dimen>
+    <dimen name="size22">44dp</dimen>
+    <dimen name="size23">46dp</dimen>
+    <dimen name="size24">48dp</dimen>
+
+
+    <!-- Body text -->
+    <dimen name="body0">8sp</dimen>
+    <dimen name="body1">10sp</dimen>
+    <dimen name="body2">12sp</dimen>
+    <dimen name="body3">14sp</dimen>
+    <dimen name="body4">16sp</dimen>
+    <dimen name="body5">18sp</dimen>
+    <dimen name="body6">20sp</dimen>
+
+    <!-- Headers text -->
+    <dimen name="header0">22sp</dimen>
+    <dimen name="header1">24sp</dimen>
+    <dimen name="header2">26sp</dimen>
+    <dimen name="header3">28sp</dimen>
+    <dimen name="header4">30sp</dimen>
+    <dimen name="header5">32sp</dimen>
+</resources>

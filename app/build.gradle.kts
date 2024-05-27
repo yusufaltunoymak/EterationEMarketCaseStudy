@@ -1,6 +1,11 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    //Hilt
+    id ("kotlin-kapt")
+    id ("com.google.dagger.hilt.android")
+    //Navigation
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -26,6 +31,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -45,4 +53,33 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //Hilt
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+    //Navigation
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
+    //Retrofit
+    implementation (libs.gson)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    //Glide
+    implementation (libs.glide)
+    //Logging Interceptor
+    implementation (libs.okhttp)
+    implementation (libs.logging.interceptor)
+    //Room
+    implementation (libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    annotationProcessor (libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx)
+    //ViewModel
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.common.java8)
+    implementation (libs.androidx.lifecycle.viewmodel.savedstate)
+}
+kapt {
+    correctErrorTypes = true
 }
