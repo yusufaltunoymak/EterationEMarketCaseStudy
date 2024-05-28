@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
@@ -79,7 +80,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         })
     }
     private fun initAdapter() {
-        homeAdapter = HomeAdapter()
+        homeAdapter = HomeAdapter() { product ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(product))
+        }
         binding.homeRv.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.homeRv.adapter = homeAdapter
     }

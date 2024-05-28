@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.ui.detail.ProductDetailFragment">
+    <com.altunoymak.eterationemarketcasestudy.util.component.CustomToolBar
+        android:id="@+id/detailToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigation_icon_visibility="true"
+        app:navigation_icon="@drawable/arrow_back_icon"
+        app:toolBarBackgroundColor="@color/mainBlue"
+        app:toolBarTextColor="@color/white" />
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_margin="@dimen/size8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detailToolbar">
+
+        <ImageView
+            android:id="@+id/productIv"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/favoriteIv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignEnd="@id/productIv"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/favorite_icon_selector" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/detailProductNameTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size6"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/header0"
+        app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
+        app:layout_constraintStart_toStartOf="@+id/relativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. " />
+
+    <TextView
+        android:id="@+id/productDetailTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size4"
+        android:layout_marginTop="@dimen/size6"
+        android:ellipsize="end"
+        android:maxLines="5"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body4"
+        app:layout_constraintEnd_toEndOf="@+id/detailProductNameTv"
+        app:layout_constraintStart_toStartOf="@+id/detailProductNameTv"
+        app:layout_constraintTop_toBottomOf="@id/detailProductNameTv"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+
+    <TextView
+        android:id="@+id/staticPriceTv"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size16"
+        android:fontFamily="@font/poppins"
+        android:text="@string/price_text"
+        android:textColor="@color/mainBlue"
+        android:textSize="@dimen/body5"
+        app:layout_constraintBottom_toTopOf="@+id/priceTv"
+        app:layout_constraintEnd_toStartOf="@+id/addToCardButton"
+        app:layout_constraintStart_toStartOf="@+id/priceTv" />
+
+    <TextView
+        android:id="@+id/priceTv"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/size16"
+        android:layout_marginBottom="@dimen/size16"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addToCardButton"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="123123 ₺" />
+
+    <Button
+        android:id="@+id/addToCardButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size8"
+        android:fontFamily="@font/poppins"
+        android:paddingHorizontal="@dimen/size16"
+        android:text="@string/add_to_card_text"
+        android:textAllCaps="false"
+        android:textSize="@dimen/body3"
+        app:layout_constraintBottom_toBottomOf="@+id/priceTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/staticPriceTv" />
+</androidx.constraintlayout.widget.ConstraintLayout>

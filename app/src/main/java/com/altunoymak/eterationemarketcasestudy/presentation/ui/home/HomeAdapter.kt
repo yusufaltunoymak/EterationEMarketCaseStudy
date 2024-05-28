@@ -10,13 +10,16 @@ import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductRespons
 import com.altunoymak.eterationemarketcasestudy.databinding.HomeRecyclerItemBinding
 import com.altunoymak.eterationemarketcasestudy.util.downloadFromUrl
 
-class HomeAdapter() : ListAdapter<ProductResponseItem, HomeAdapter.ViewHolder>(HomeDiffCallBack()) {
+class HomeAdapter(private val onItemClicked : (ProductResponseItem) -> Unit) : ListAdapter<ProductResponseItem, HomeAdapter.ViewHolder>(HomeDiffCallBack()) {
     inner class ViewHolder(private val binding : HomeRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductResponseItem) {
             binding.apply {
                 productNameTv.text = product.name
                 productPriceTv.text = "${product.price.toString()} ₺"
                 itemImage.downloadFromUrl(product.image, binding.root.context)
+                root.setOnClickListener {
+                    onItemClicked.invoke(product)
+                }
             }
         }
     }
