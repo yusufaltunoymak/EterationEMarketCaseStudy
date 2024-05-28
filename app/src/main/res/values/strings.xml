@@ -12,6 +12,10 @@
     <string name="select_filter_text">Select Filter</string>
     <string name="retry_text">Retry</string>
     <string name="add_to_card_text">Add To Card</string>
-    <string name="price_text">Price</string>
+    <string name="price_text">Price:</string>
     <string name="currency_symbol"> ₺</string>
+    <string name="plus_text">+</string>
+    <string name="minus_text">-</string>
+    <string name="total_text">Total:</string>
+    <string name="complete_text">Complete</string>
 </resources>
