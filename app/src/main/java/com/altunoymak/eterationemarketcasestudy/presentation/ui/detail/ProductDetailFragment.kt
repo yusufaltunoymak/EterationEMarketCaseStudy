@@ -1,6 +1,7 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -40,7 +41,25 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(Fragmen
                     detailViewModel.insertToDatabase(convertResponseItemToEntity(args.products))
                 }
             }
+
+            detailViewModel.checkIfFavoriteProduct(product.id!!)
+                .observe(viewLifecycleOwner) { isFav ->
+                    favoriteIv.isSelected = isFav
+                }
+
+            favoriteIv.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val product = args.products
+                    if (favoriteIv.isSelected) {
+                        detailViewModel.removeFavoriteProduct(product.id!!)
+                    }
+                    else {
+                        detailViewModel.addProductToFavorites(convertResponseItemToEntity(product))
+                    }
+                    favoriteIv.isSelected = !favoriteIv.isSelected
+
+                }
+            }
         }
     }
-
 }

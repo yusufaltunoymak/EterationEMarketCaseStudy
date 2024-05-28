@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
+import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate),ProductActions {
     private val productViewModel : ProductViewModel by viewModels()
     private lateinit var homeAdapter: HomeAdapter
 
@@ -80,7 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         })
     }
     private fun initAdapter() {
-        homeAdapter = HomeAdapter() { product ->
+        homeAdapter = HomeAdapter(this, viewLifecycleOwner) { product ->
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(product))
         }
         binding.homeRv.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -99,5 +101,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         })
+    }
+    override fun addProductToFavorites(product: ProductResponseItem) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            productViewModel.addProductToFavorites(product)
+        }
+    }
+    override fun removeFavoriteProduct(productId: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            productViewModel.removeFavoriteProduct(productId)
+        }
+    }
+    override fun checkIfFavoriteProduct(productId: String): LiveData<Boolean> {
+        return productViewModel.checkIfFavoriteProduct(productId)
     }
 }

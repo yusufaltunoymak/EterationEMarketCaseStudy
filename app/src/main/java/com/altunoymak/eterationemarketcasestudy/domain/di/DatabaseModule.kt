@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.altunoymak.eterationemarketcasestudy.data.local.ProductDao
 import com.altunoymak.eterationemarketcasestudy.data.local.ProductDatabase
+import com.altunoymak.eterationemarketcasestudy.data.local.model.FavoriteProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +26,10 @@ object DatabaseModule {
     @Provides
     fun provideProductDao(database: ProductDatabase): ProductDao {
         return database.productDao()
+    }
+
+    @Provides
+    fun provideFavoriteProductDao(database: ProductDatabase): FavoriteProductDao {
+        return database.favoriteProductDao()
     }
 }
