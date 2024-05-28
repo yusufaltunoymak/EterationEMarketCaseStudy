@@ -2,6 +2,7 @@ package com.altunoymak.eterationemarketcasestudy.data.remote.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ProductResponseItem(
     @SerializedName("brand")
@@ -20,4 +21,4 @@ data class ProductResponseItem(
     val name: String?,
     @SerializedName("price")
     val price: String?
-)
+) : Serializable
