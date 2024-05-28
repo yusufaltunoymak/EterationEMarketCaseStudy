@@ -7,8 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.data.response.ResponseStatus
+import com.altunoymak.eterationemarketcasestudy.data.usecase.AddFavoriteProductUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetAllProductsUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetFavoriteProductUseCase
+import com.altunoymak.eterationemarketcasestudy.data.usecase.RemoveFavoriteProductUseCase
+import com.altunoymak.eterationemarketcasestudy.util.mapToFavorite
+import com.altunoymak.eterationemarketcasestudy.util.productToResponseItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +23,11 @@ import kotlin.math.min
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val getAllProductsUseCase: GetAllProductsUseCase) : ViewModel() {
+    private val getAllProductsUseCase: GetAllProductsUseCase,
+    private val addFavoriteProductUseCase: AddFavoriteProductUseCase,
+    private val removeFavoriteProductUseCase: RemoveFavoriteProductUseCase,
+    private val getFavoriteProductUseCase: GetFavoriteProductUseCase
+    ) : ViewModel() {
     private var _viewState = MutableStateFlow(ProductViewState())
     val viewState = _viewState.asStateFlow()
     private var allProducts = listOf<ProductResponseItem>()
@@ -108,4 +116,24 @@ class ProductViewModel @Inject constructor(
             Log.d("ProductViewModel", "No more items to load")
         }
     }
+
+    fun addProductToFavorites(product: ProductResponseItem) = viewModelScope.launch {
+        val favoriteProduct = productToResponseItem(product,true)
+        addFavoriteProductUseCase(favoriteProduct)
+    }
+
+    fun removeFavoriteProduct(productId: String) = viewModelScope.launch {
+        removeFavoriteProductUseCase(productId)
+    }
+
+    fun checkIfFavoriteProduct(productId: String): LiveData<Boolean> {
+        val result = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            val isFavorite = getFavoriteProductUseCase(productId) != null
+            result.value = isFavorite
+        }
+        return result
+    }
+
+
 }

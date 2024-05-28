@@ -31,3 +31,18 @@ fun mapToFavorite(product: Product, isFavorite: Boolean): FavoriteProduct {
         isFavorite = isFavorite
     )
 }
+
+fun productToResponseItem(product: ProductResponseItem, isFavorite: Boolean): FavoriteProduct {
+    return FavoriteProduct(
+        id = product.id?.toInt() ?: 0,
+        name = product.name!!,
+        price = product.price!!,
+        image = product.image!!,
+        description = product.description!!,
+        isFavorite = isFavorite!!,
+        brand = product.brand!!,
+        createdAt = product.createdAt!!,
+        model = product.model!!,
+        productId = product.id!!
+    )
+}
