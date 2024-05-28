@@ -19,6 +19,8 @@ class ProductViewModel @Inject constructor(private val getAllProductsUseCase: Ge
     private var _viewState = MutableStateFlow(ProductViewState())
     val viewState = _viewState.asStateFlow()
     private var allProducts = listOf<ProductResponseItem>()
+    private var _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
 
     // Current page for pagination
     private var currentPage = 0
@@ -28,6 +30,15 @@ class ProductViewModel @Inject constructor(private val getAllProductsUseCase: Ge
 
     fun getItemsPerPage(): Int {
         return itemsPerPage
+    }
+    fun setSearchText(text: String) {
+        _searchText.value = text
+    }
+
+    fun getFilteredProducts(): List<ProductResponseItem> {
+        return allProducts.filter { product ->
+                product.name?.contains(searchText.value, ignoreCase = true) ?: false
+        }
     }
 
     init {

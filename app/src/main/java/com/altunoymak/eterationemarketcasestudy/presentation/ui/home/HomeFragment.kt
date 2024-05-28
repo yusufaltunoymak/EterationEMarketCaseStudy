@@ -2,6 +2,7 @@ package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +22,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         initAdapter()
         observeData()
         setupScrollListener()
+        setupSearchBar()
+        observeSearchView()
+
     }
 
     private fun observeData() {
@@ -48,10 +52,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         }
                     }
                 }
+
             }
         }
     }
+    private fun observeSearchView() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            productViewModel.searchText.collect { searchText ->
+                val filteredProducts = productViewModel.getFilteredProducts()
+                homeAdapter.submitList(filteredProducts)
+            }
+        }
+    }
+    private fun setupSearchBar() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
 
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    productViewModel.setSearchText(it)
+                }
+                return true
+            }
+        })
+    }
     private fun initAdapter() {
         homeAdapter = HomeAdapter()
         binding.homeRv.layoutManager = GridLayoutManager(requireContext(), 2)
