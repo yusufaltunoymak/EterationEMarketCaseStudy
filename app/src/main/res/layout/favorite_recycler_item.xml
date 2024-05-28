@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/favoriteCardView"
+        android:backgroundTint="@color/grey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardConstraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/favoriteIv"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginStart="@dimen/size6"
+                android:layout_marginTop="@dimen/size4"
+                android:layout_marginEnd="@dimen/size6"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/favoriteProductTv"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size6"
+                android:layout_marginEnd="@dimen/size6"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Product Name"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/mainBlue"
+                android:textSize="@dimen/body5"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/favoriteProductDetailTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/favoriteIv"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/favoriteProductDetailTv"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size6"
+                android:layout_marginBottom="@dimen/size6"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:fontFamily="@font/poppins"
+                tools:text="Product Detail"
+                android:textSize="@dimen/body3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/favoriteProductTv" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/listDivider"
+                app:dividerColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/favoriteProductDetailTv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="12dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
