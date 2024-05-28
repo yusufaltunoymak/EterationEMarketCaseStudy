@@ -1,11 +1,14 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.data.response.ResponseStatus
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetAllProductsUseCase
+import com.altunoymak.eterationemarketcasestudy.data.usecase.GetFavoriteProductUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +18,8 @@ import javax.inject.Inject
 import kotlin.math.min
 
 @HiltViewModel
-class ProductViewModel @Inject constructor(private val getAllProductsUseCase: GetAllProductsUseCase) : ViewModel() {
+class ProductViewModel @Inject constructor(
+    private val getAllProductsUseCase: GetAllProductsUseCase) : ViewModel() {
     private var _viewState = MutableStateFlow(ProductViewState())
     val viewState = _viewState.asStateFlow()
     private var allProducts = listOf<ProductResponseItem>()
