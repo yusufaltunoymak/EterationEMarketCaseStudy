@@ -1,8 +1,12 @@
 package com.altunoymak.eterationemarketcasestudy.util
 
 import com.altunoymak.eterationemarketcasestudy.data.local.model.FavoriteProduct
+import com.altunoymak.eterationemarketcasestudy.data.local.model.Order
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 fun convertResponseItemToEntity(productResponseItem: ProductResponseItem): Product {
     return Product(
@@ -58,4 +62,21 @@ fun FavoriteProduct.toProductResponseItem(): ProductResponseItem {
         name = this.name,
         price = this.price
     )
+}
+
+fun mapToOrder(products: List<Product>): Order {
+    val totalPrice = products.sumOf { it.price.toDouble() * it.quantity }
+    return Order(
+        productId = products[0].productId,
+        name = products[0].name,
+        image = products[0].image,
+        price = products[0].price,
+        quantity = products.sumOf { it.quantity },
+        orderDate = getCurrentDate(),
+        totalPrice = totalPrice.toString()
+    )
+}
+private fun getCurrentDate(): String {
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    return sdf.format(Date())
 }

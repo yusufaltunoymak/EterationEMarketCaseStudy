@@ -1,7 +1,7 @@
 package com.altunoymak.eterationemarketcasestudy.data.repository
 
 import com.altunoymak.eterationemarketcasestudy.data.local.model.FavoriteProduct
-import com.altunoymak.eterationemarketcasestudy.data.local.model.FavoriteProductDao
+import com.altunoymak.eterationemarketcasestudy.data.local.FavoriteProductDao
 import com.altunoymak.eterationemarketcasestudy.domain.repository.FavoriteProductRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

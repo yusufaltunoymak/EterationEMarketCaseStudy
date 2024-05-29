@@ -10,6 +10,8 @@ import com.altunoymak.eterationemarketcasestudy.R
 import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentBasketBinding
+import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
+import com.altunoymak.eterationemarketcasestudy.util.mapToOrder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,6 +33,15 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
                         productList?.let { productsList ->
                             basketAdapter.submitList(productsList)
                             calculateTotalPrice(productsList)
+                        }
+                        completeButton.clickWithDebounce {
+                            productList?.let { productsList ->
+                                productDatabaseViewModel.getOrder(productsList[0].productId).observe(viewLifecycleOwner) { order ->
+                                    if (order == null) {
+                                        productDatabaseViewModel.insertOrder(mapToOrder(productsList))
+                                    }
+                                }
+                            }
                         }
                     }
                 }

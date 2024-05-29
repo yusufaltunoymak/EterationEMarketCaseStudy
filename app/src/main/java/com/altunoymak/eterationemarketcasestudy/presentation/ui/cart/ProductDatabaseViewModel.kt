@@ -1,11 +1,15 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.cart
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.altunoymak.eterationemarketcasestudy.data.response.Response
+import com.altunoymak.eterationemarketcasestudy.data.local.model.Order
 import com.altunoymak.eterationemarketcasestudy.data.response.ResponseStatus
 import com.altunoymak.eterationemarketcasestudy.data.usecase.DeleteProductFromDatabase
+import com.altunoymak.eterationemarketcasestudy.data.usecase.GetOrderUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetProductsFromDatabase
+import com.altunoymak.eterationemarketcasestudy.data.usecase.InsertOrderToDatabaseUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.UpdateProductQuantity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,8 +23,10 @@ import javax.inject.Inject
 class ProductDatabaseViewModel @Inject constructor(
     private val getAllProductsUseCase: GetProductsFromDatabase,
     private val updateProductQuantityUseCase: UpdateProductQuantity,
-    private val deleteProductFromDatabase: DeleteProductFromDatabase
-) : ViewModel() {
+    private val deleteProductFromDatabase: DeleteProductFromDatabase,
+    private val insertOrderToDatabaseUseCase: InsertOrderToDatabaseUseCase,
+    private val getOrderUseCase: GetOrderUseCase,
+    ) : ViewModel() {
     private var _viewState = MutableStateFlow(ProductDatabaseViewState())
     val viewState = _viewState.asStateFlow()
 
@@ -38,7 +44,7 @@ class ProductDatabaseViewModel @Inject constructor(
                                 isLoading = false,
                                 errorMessage = null,
                                 productList = response.data,
-                                quantity = response.data?.sumBy { it.quantity } ?: 0
+                                quantity = response.data?.sumOf { it.quantity } ?: 0
                             )
                         }
                     }
@@ -125,6 +131,46 @@ class ProductDatabaseViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+    fun insertOrder(order : Order) {
+        viewModelScope.launch {
+            insertOrderToDatabaseUseCase.invoke(order).collect {response ->
+                when(response.status) {
+                    ResponseStatus.SUCCESS -> {
+                        _viewState.update {
+                            it.copy(
+                                isLoading = false,
+                                isCompleteOrder = true,
+                                errorMessage = null
+                            )
+                        }
+                    }
+                    ResponseStatus.ERROR -> {
+                        _viewState.update {
+                            it.copy(
+                                isLoading = false,
+                                isCompleteOrder = false,
+                                errorMessage = response.message
+                            )
+                        }
+                    }
+                    else -> {
+                        _viewState.update {
+                            it.copy(
+                                isLoading = true,
+                                errorMessage = null
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fun getOrder(productId: String): LiveData<Order?> {
+        return liveData {
+            val order = getOrderUseCase(productId)
+            emit(order)
         }
     }
 }
