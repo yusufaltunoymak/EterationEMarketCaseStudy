@@ -13,8 +13,8 @@ interface OrderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrder(order: Order)
 
-    @Delete
-    suspend fun deleteOrder(order: Order)
+    @Query("DELETE FROM order_table WHERE id = :id")
+    suspend fun deleteOrder(id: Int)
 
     @Query("SELECT * FROM order_table")
     fun getAllOrders(): Flow<List<Order>>

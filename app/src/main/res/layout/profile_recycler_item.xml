@@ -39,11 +39,11 @@
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size6"
-                android:layout_marginEnd="12dp"
-                android:text="max"
-                android:textSize="@dimen/body5"
+                android:layout_marginEnd="@dimen/size6"
+                android:text="@string/price_text"
+                android:textSize="@dimen/body3"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/totalPriceTv"
+                app:layout_constraintEnd_toStartOf="@+id/deleteOrderButton"
                 app:layout_constraintStart_toEndOf="@+id/posterIv"
                 app:layout_constraintTop_toTopOf="@+id/posterIv" />
 
@@ -51,13 +51,36 @@
                 android:id="@+id/totalPriceTv"
                 android:layout_width="@dimen/size0"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size6"
+                android:text="@string/price_text"
+                android:textSize="@dimen/body4"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/deleteOrderButton"
+                app:layout_constraintStart_toStartOf="@+id/staticPriceTv"
+                app:layout_constraintTop_toBottomOf="@+id/staticPriceTv" />
+
+            <TextView
+                android:id="@+id/staticPriceTv"
+                android:layout_width="@dimen/size0"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size6"
                 android:layout_marginTop="@dimen/size6"
-                android:layout_marginEnd="@dimen/size6"
-                android:text="deneme"
-                android:textSize="@dimen/body4"
+                android:text="@string/price_text"
+                android:textSize="@dimen/body3"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/posterIv"
                 app:layout_constraintTop_toBottomOf="@+id/orderDateTv" />
+
+            <Button
+                android:id="@+id/deleteOrderButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/size8"
+                android:textSize="@dimen/body3"
+                android:text="@string/delete_order_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

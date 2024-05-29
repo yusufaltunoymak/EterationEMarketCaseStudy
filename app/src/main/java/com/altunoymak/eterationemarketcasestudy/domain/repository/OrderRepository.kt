@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface OrderRepository {
     fun getAllOrders(): Flow<List<Order>>
     suspend fun insertOrder(order: Order) : Flow<Response<Boolean>>
-    suspend fun deleteOrder(order: Order)
+    suspend fun deleteOrder(id: Int)
     suspend fun getOrder(productId: String): Order?
 
 }

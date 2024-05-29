@@ -21,7 +21,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     }
 
     private fun initAdapter() {
-        profileAdapter = ProfileAdapter()
+        profileAdapter = ProfileAdapter() { id ->
+            lifecycleScope.launch {
+                profileViewModel.deleteOrder(id)
+            }
+        }
         binding.orderRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.orderRv.adapter = profileAdapter
     }
@@ -31,6 +35,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             profileViewModel.viewState.collect { viewState ->
                 viewState.orderList?.let { orderList ->
                     profileAdapter.submitList(orderList)
+                    if(orderList.isEmpty()) {
+                        binding.emptyListTv.visibility = View.VISIBLE
+                        binding.orderRv.visibility = View.GONE
+                    }
+                    else {
+                        binding.emptyListTv.visibility = View.GONE
+                    }
                 }
             }
         }

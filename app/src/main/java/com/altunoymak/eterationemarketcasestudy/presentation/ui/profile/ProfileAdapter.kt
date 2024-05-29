@@ -1,9 +1,7 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.profile
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,19 +10,18 @@ import com.altunoymak.eterationemarketcasestudy.databinding.ProfileRecyclerItemB
 import com.altunoymak.eterationemarketcasestudy.util.Constants
 import com.altunoymak.eterationemarketcasestudy.util.downloadFromUrl
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class ProfileAdapter() : ListAdapter<Order, ProfileAdapter.ViewHolder>(ProfileDiffCallBack()) {
+class ProfileAdapter(private val onDeleteClick: (Int) -> Unit) : ListAdapter<Order, ProfileAdapter.ViewHolder>(ProfileDiffCallBack()) {
 
     inner class ViewHolder(private val binding: ProfileRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(order: Order) {
             binding.apply {
                 orderDateTv.text = formattedDate(order.orderDate)
-                totalPriceTv.text = "${order.totalPrice.toString()} ₺"
+                totalPriceTv.text = "${order.totalPrice} ₺"
                 posterIv.downloadFromUrl(order.image, binding.root.context)
+                deleteOrderButton.setOnClickListener { onDeleteClick(order.id!!) }
             }
         }
     }

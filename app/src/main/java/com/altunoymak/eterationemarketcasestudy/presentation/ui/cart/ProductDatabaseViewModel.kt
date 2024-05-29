@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Order
-import com.altunoymak.eterationemarketcasestudy.data.response.Response
 import com.altunoymak.eterationemarketcasestudy.data.response.ResponseStatus
 import com.altunoymak.eterationemarketcasestudy.data.usecase.DeleteProductFromDatabase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetOrderUseCase
@@ -45,7 +44,7 @@ class ProductDatabaseViewModel @Inject constructor(
                                 isLoading = false,
                                 errorMessage = null,
                                 productList = response.data,
-                                quantity = response.data?.sumBy { it.quantity } ?: 0
+                                quantity = response.data?.sumOf { it.quantity } ?: 0
                             )
                         }
                     }

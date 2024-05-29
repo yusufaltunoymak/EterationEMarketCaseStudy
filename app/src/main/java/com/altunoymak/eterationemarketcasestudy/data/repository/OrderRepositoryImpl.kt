@@ -26,8 +26,8 @@ class OrderRepositoryImpl @Inject constructor(private val orderDao: OrderDao) : 
         }
     }
 
-    override suspend fun deleteOrder(order: Order) {
-        orderDao.deleteOrder(order)
+    override suspend fun deleteOrder(id: Int) {
+        orderDao.deleteOrder(id)
     }
 
     override suspend fun getOrder(productId: String): Order? {
