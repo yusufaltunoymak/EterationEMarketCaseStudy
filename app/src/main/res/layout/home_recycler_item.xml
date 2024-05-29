@@ -7,12 +7,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
-        android:layout_margin="@dimen/size2"
         android:id="@+id/itemCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/white"
         app:cardElevation="@dimen/size10"
+        app:cardCornerRadius="@dimen/size5"
+        android:layout_margin="@dimen/size1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,6 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardConstraint"
             android:layout_width="match_parent"
+            android:elevation="@dimen/size20"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -51,13 +54,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size8"
                 android:layout_marginEnd="@dimen/size8"
+                android:fontFamily="@font/poppins"
                 android:textColor="@color/mainBlue"
                 android:textSize="@dimen/body5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/itemImage"
-                tools:text="@string/search_text"
-                android:fontFamily="@font/poppins"/>
+                tools:text="@string/search_text" />
 
             <TextView
                 android:id="@+id/productNameTv"
@@ -65,14 +68,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/size8"
                 android:layout_marginEnd="@dimen/size8"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:fontFamily="@font/poppins_semibold"
+                android:maxLines="1"
+                android:textSize="@dimen/body5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/productPriceTv"
-                tools:text="@tools:sample/lorem"
-                android:textSize="@dimen/body5"
-                android:fontFamily="@font/poppins_semibold"/>
+                tools:text="@tools:sample/lorem" />
 
             <Button
                 android:id="@+id/buyButton"
