@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_filterBottomSheetDialogFragment"
+            app:destination="@id/filterBottomSheetDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -42,4 +45,8 @@
             android:name="products"
             app:argType="com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem" />
     </fragment>
+    <fragment
+        android:id="@+id/filterBottomSheetDialogFragment"
+        android:name="com.altunoymak.eterationemarketcasestudy.presentation.ui.filter.FilterBottomSheetDialogFragment"
+        android:label="FilterBottomSheetDialogFragment" />
 </navigation>

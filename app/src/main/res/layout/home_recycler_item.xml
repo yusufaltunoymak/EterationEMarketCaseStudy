@@ -42,8 +42,8 @@
                 android:layout_width="@dimen/size12"
                 android:layout_height="@dimen/size12"
                 android:layout_alignEnd="@+id/itemImage"
-                android:layout_marginTop="@dimen/size8"
-                android:layout_marginEnd="@dimen/size8"
+                android:layout_marginTop="@dimen/size4"
+                android:layout_marginEnd="@dimen/size4"
                 android:src="@drawable/favorite_icon_selector"
                 app:layout_constraintEnd_toEndOf="@+id/itemImage"
                 app:layout_constraintTop_toTopOf="@+id/itemImage" />

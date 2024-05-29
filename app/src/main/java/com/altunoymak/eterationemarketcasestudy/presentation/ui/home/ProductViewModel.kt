@@ -1,17 +1,19 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.data.response.ResponseStatus
 import com.altunoymak.eterationemarketcasestudy.data.usecase.AddFavoriteProductUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetAllProductsUseCase
+import com.altunoymak.eterationemarketcasestudy.data.usecase.GetCartItemCountUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetFavoriteProductUseCase
+import com.altunoymak.eterationemarketcasestudy.data.usecase.InsertProductToDatabase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.RemoveFavoriteProductUseCase
-import com.altunoymak.eterationemarketcasestudy.util.mapToFavorite
+import com.altunoymak.eterationemarketcasestudy.util.SortBy
 import com.altunoymak.eterationemarketcasestudy.util.productToResponseItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +28,9 @@ class ProductViewModel @Inject constructor(
     private val getAllProductsUseCase: GetAllProductsUseCase,
     private val addFavoriteProductUseCase: AddFavoriteProductUseCase,
     private val removeFavoriteProductUseCase: RemoveFavoriteProductUseCase,
-    private val getFavoriteProductUseCase: GetFavoriteProductUseCase
+    private val getFavoriteProductUseCase: GetFavoriteProductUseCase,
+    private val insertProductToDatabase: InsertProductToDatabase,
+    private val getCartItemCountUseCase: GetCartItemCountUseCase
     ) : ViewModel() {
     private var _viewState = MutableStateFlow(ProductViewState())
     val viewState = _viewState.asStateFlow()
@@ -34,15 +38,16 @@ class ProductViewModel @Inject constructor(
     private var _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
-    // Current page for pagination
+    private val _cartItemCount = MutableLiveData<Int>(0)
+    val cartItemCount: LiveData<Int> = _cartItemCount
+
+    val selectedSortBy = MutableLiveData<SortBy>()
+
+
     private var currentPage = 0
 
-    // Number of items per page
     private val itemsPerPage = 4
 
-    fun getItemsPerPage(): Int {
-        return itemsPerPage
-    }
     fun setSearchText(text: String) {
         _searchText.value = text
     }
@@ -57,7 +62,7 @@ class ProductViewModel @Inject constructor(
         getAllProducts()
     }
 
-    private fun getAllProducts() {
+    fun getAllProducts() {
         viewModelScope.launch {
             getAllProductsUseCase.invoke().collect { response ->
                 when (response.status) {
@@ -75,10 +80,14 @@ class ProductViewModel @Inject constructor(
                     ResponseStatus.SUCCESS -> {
                         response.data?.let {
                             allProducts = response.data
+                            val modelList = allProducts.map { it.model ?: "" }
+                            val brandList = allProducts.map { it.brand ?: "" }
                             _viewState.update { viewState ->
                                 viewState.copy(
                                     isLoading = false,
-                                    products = allProducts
+                                    products = allProducts,
+                                    modelList = modelList,
+                                    brandList = brandList
                                 )
                             }
                             loadMoreItems()
@@ -98,25 +107,28 @@ class ProductViewModel @Inject constructor(
         }
     }
     fun loadMoreItems() {
-        val startIndex = currentPage * itemsPerPage
-        val endIndex = min(startIndex + itemsPerPage, allProducts.size)
-
-        if(startIndex < endIndex) {
-            val newItems = allProducts.subList(startIndex, endIndex)
-            _viewState.update { viewState ->
-                viewState.copy(
-                    isLoading = false,
-                    products = viewState.products?.plus(newItems)
-                )
+        viewModelScope.launch {
+            _viewState.update {
+                it.copy(isLoading = true)
             }
-            Log.d("ProductViewModel", "Loaded ${newItems.size} more items")
-            currentPage++
-        }
-        else {
-            Log.d("ProductViewModel", "No more items to load")
+            val startIndex = currentPage * itemsPerPage
+            val endIndex = min(startIndex + itemsPerPage, allProducts.size)
+            if (startIndex < allProducts.size) {
+                val newItems = allProducts.subList(startIndex, endIndex)
+                _viewState.update {
+                    it.copy(
+                        isLoading = false,
+                        products = it.products + newItems
+                    )
+                }
+                currentPage++
+            } else {
+                _viewState.update {
+                    it.copy(isLoading = false)
+                }
+            }
         }
     }
-
     fun addProductToFavorites(product: ProductResponseItem) = viewModelScope.launch {
         val favoriteProduct = productToResponseItem(product,true)
         addFavoriteProductUseCase(favoriteProduct)
@@ -134,6 +146,62 @@ class ProductViewModel @Inject constructor(
         }
         return result
     }
+    fun addToCart(product: Product) {
+        viewModelScope.launch {
+            insertProductToDatabase(product).collect { response ->
+                when(response.status) {
+                    ResponseStatus.SUCCESS -> {
+                        _viewState.update { viewState ->
+                            viewState.copy(
+                                isLoading = false,
+                                errorMessage = null,
+                                isInsertDatabase = true
+                            )
+                        }
+                        _viewState.update { viewState ->
+                            viewState.copy(
+                                isInsertDatabase = false
+                            )
+                        }
+                        getCartItemCount()
+                    }
 
+                    ResponseStatus.LOADING -> {
+                        _viewState.update { viewState ->
+                            viewState.copy(
+                                isLoading = true,
+                                errorMessage = null,
+                                isInsertDatabase = false
+                            )
+                        }
+                    }
+                    else -> {
+                        _viewState.update { viewState ->
+                            viewState.copy(
+                                isLoading = false,
+                                errorMessage = response.message,
+                                isInsertDatabase = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fun getCartItemCount() {
+        viewModelScope.launch {
+            getCartItemCountUseCase().collect { count ->
+                _cartItemCount.postValue(count)
+            }
+        }
+    }
 
+    fun sortProducts(sortBy: SortBy): List<ProductResponseItem> {
+        return when (sortBy) {
+            SortBy.OLD_TO_NEW -> allProducts.sortedBy { it.createdAt }
+            SortBy.NEW_TO_OLD -> allProducts.sortedByDescending { it.createdAt }
+            SortBy.PRICE_HIGH_TO_LOW -> allProducts.sortedByDescending { it.price }
+            SortBy.PRICE_LOW_TO_HIGH -> allProducts.sortedBy { it.price }
+        }
+    }
 }

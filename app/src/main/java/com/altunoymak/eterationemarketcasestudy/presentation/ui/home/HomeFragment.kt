@@ -2,24 +2,30 @@ package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.altunoymak.eterationemarketcasestudy.MainActivity
+import com.altunoymak.eterationemarketcasestudy.R
 import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
+import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentHomeBinding
+import com.altunoymak.eterationemarketcasestudy.presentation.ui.filter.FilterBottomSheetDialogFragment
+import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate),ProductActions {
-    private val productViewModel : ProductViewModel by viewModels()
+    private val productViewModel : ProductViewModel by activityViewModels()
     private lateinit var homeAdapter: HomeAdapter
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
@@ -27,15 +33,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setupScrollListener()
         setupSearchBar()
         observeSearchView()
+        observeCartItemCount()
+        binding.selectFilterButton.clickWithDebounce {
+            binding.homeProgressBar.visibility = View.VISIBLE
+            findNavController().navigate(R.id.filterBottomSheetDialogFragment)
+            binding.homeProgressBar.visibility = View.GONE
+        }
 
+        productViewModel.selectedSortBy.observe(viewLifecycleOwner) { sortBy ->
+            sortBy?.let {
+                val sortedList = productViewModel.sortProducts(it)
+                homeAdapter.submitList(sortedList)
+            }
+        }
     }
-
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             productViewModel.viewState.collect { viewState ->
                 viewState.apply {
                     binding.apply {
-                        products?.let { productsList ->
+                        products.let { productsList ->
                             homeAdapter.submitList(productsList)
                         }
                         isLoading?.let {
@@ -45,12 +62,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                 homeProgressBar.visibility = View.GONE
                             }
                             errorMessage?.let {errorMessage ->
+                                retryButton.clickWithDebounce {
+                                    productViewModel.getAllProducts()
+                                    errorText.visibility = View.GONE
+                                    retryButton.visibility = View.GONE
+                                }
                                 if (errorMessage.isNotBlank()) {
                                     errorText.visibility = View.VISIBLE
+                                    retryButton.visibility = View.VISIBLE
+                                    homeProgressBar.visibility = View.GONE
                                     errorText.text = errorMessage
                                 } else {
                                     errorText.visibility = View.GONE
                                 }
+                            }
+                        }
+                        isInsertDatabase?.let {
+                            if (it) {
+                                Toast.makeText(requireContext(), getString(R.string.product_added_to_cart_text), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -96,11 +125,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                if (!productViewModel.viewState.value.isLoading!! && totalItemCount <= (lastVisibleItem + productViewModel.getItemsPerPage())) {
+                if (productViewModel.viewState.value.isLoading == false && lastVisibleItem >= totalItemCount - 2) {
                     productViewModel.loadMoreItems()
                 }
             }
         })
+    }
+
+    private fun observeCartItemCount() {
+        productViewModel.cartItemCount.observe(viewLifecycleOwner) { count ->
+            binding.textViewItemCount.text = count.toString()
+            (activity as MainActivity).updateBadge(count)
+        }
     }
     override fun addProductToFavorites(product: ProductResponseItem) {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -114,5 +150,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
     override fun checkIfFavoriteProduct(productId: String): LiveData<Boolean> {
         return productViewModel.checkIfFavoriteProduct(productId)
+    }
+
+    override fun addToCart(product: Product) {
+        productViewModel.addToCart(product)
     }
 }

@@ -95,6 +95,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/retry_text"
+        android:textSize="@dimen/body5"
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/mainBlue"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/retryButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +111,7 @@
         android:id="@+id/retryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/size8"
         android:text="@string/retry_text"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -115,5 +119,15 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/errorText" />
+
+    <TextView
+        android:id="@+id/textViewItemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="0"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="16sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
