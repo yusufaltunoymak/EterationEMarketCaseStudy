@@ -3,12 +3,15 @@ package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.HomeRecyclerItemBinding
+import com.altunoymak.eterationemarketcasestudy.util.convertResponseItemToEntity
 import com.altunoymak.eterationemarketcasestudy.util.downloadFromUrl
+import kotlinx.coroutines.launch
 
 class HomeAdapter(
     private val productActions: ProductActions,
@@ -35,6 +38,11 @@ class HomeAdapter(
                         productActions.addProductToFavorites(product)
                     }
                     favoriteIcon.isSelected = !favoriteIcon.isSelected
+                }
+                buyButton.setOnClickListener {
+                    lifecycleOwner.lifecycleScope.launch {
+                        productActions.addToCart(convertResponseItemToEntity(product))
+                    }
                 }
             }
         }

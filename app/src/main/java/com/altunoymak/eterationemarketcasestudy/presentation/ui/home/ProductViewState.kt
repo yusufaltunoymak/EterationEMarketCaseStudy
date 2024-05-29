@@ -4,6 +4,7 @@ import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductRespons
 
 data class ProductViewState(
     val isLoading: Boolean? = null,
-    val products: List<ProductResponseItem>? = null,
+    val products: List<ProductResponseItem> = emptyList(),
+    val isInsertDatabase : Boolean? = null,
     val errorMessage: String? = null
 )

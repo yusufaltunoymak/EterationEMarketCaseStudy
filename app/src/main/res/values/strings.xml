@@ -19,4 +19,5 @@
     <string name="total_text">Total:</string>
     <string name="complete_text">Complete</string>
     <string name="not_found_fav">Not Found Favorite Product</string>
+    <string name="product_added_to_cart_text">Product Added to Cart</string>
 </resources>

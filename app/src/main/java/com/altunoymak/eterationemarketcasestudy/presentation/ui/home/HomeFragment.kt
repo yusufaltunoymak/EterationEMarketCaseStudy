@@ -2,6 +2,7 @@ package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -9,7 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.altunoymak.eterationemarketcasestudy.R
 import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
+import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentHomeBinding
 import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
@@ -59,6 +62,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                 }
                             }
                         }
+                        isInsertDatabase?.let {
+                            if (it) {
+                                Toast.makeText(requireContext(), getString(R.string.product_added_to_cart_text), Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                 }
 
@@ -102,7 +110,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                if (!productViewModel.viewState.value.isLoading!! && totalItemCount <= (lastVisibleItem + productViewModel.getItemsPerPage())) {
+                if (productViewModel.viewState.value.isLoading == false && lastVisibleItem >= totalItemCount - 2) {
                     productViewModel.loadMoreItems()
                 }
             }
@@ -120,5 +128,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
     override fun checkIfFavoriteProduct(productId: String): LiveData<Boolean> {
         return productViewModel.checkIfFavoriteProduct(productId)
+    }
+
+    override fun addToCart(product: Product) {
+        productViewModel.addToCart(product)
     }
 }
