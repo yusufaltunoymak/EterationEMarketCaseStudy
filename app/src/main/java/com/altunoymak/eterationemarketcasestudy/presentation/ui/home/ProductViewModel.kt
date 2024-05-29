@@ -13,6 +13,7 @@ import com.altunoymak.eterationemarketcasestudy.data.usecase.GetCartItemCountUse
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetFavoriteProductUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.InsertProductToDatabase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.RemoveFavoriteProductUseCase
+import com.altunoymak.eterationemarketcasestudy.util.SortBy
 import com.altunoymak.eterationemarketcasestudy.util.productToResponseItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +40,9 @@ class ProductViewModel @Inject constructor(
 
     private val _cartItemCount = MutableLiveData<Int>(0)
     val cartItemCount: LiveData<Int> = _cartItemCount
+
+    val selectedSortBy = MutableLiveData<SortBy>()
+
 
     private var currentPage = 0
 
@@ -189,6 +193,15 @@ class ProductViewModel @Inject constructor(
             getCartItemCountUseCase().collect { count ->
                 _cartItemCount.postValue(count)
             }
+        }
+    }
+
+    fun sortProducts(sortBy: SortBy): List<ProductResponseItem> {
+        return when (sortBy) {
+            SortBy.OLD_TO_NEW -> allProducts.sortedBy { it.createdAt }
+            SortBy.NEW_TO_OLD -> allProducts.sortedByDescending { it.createdAt }
+            SortBy.PRICE_HIGH_TO_LOW -> allProducts.sortedByDescending { it.price }
+            SortBy.PRICE_LOW_TO_HIGH -> allProducts.sortedBy { it.price }
         }
     }
 }

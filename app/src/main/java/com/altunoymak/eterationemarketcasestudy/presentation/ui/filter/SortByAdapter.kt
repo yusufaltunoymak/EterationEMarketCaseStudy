@@ -11,7 +11,11 @@ import com.altunoymak.eterationemarketcasestudy.util.SortBy
 class SortByAdapter : ListAdapter<SortBy, SortByAdapter.ViewHolder>(SortByDiffCallback()) {
 
     var selectedPosition = -1
+    private var selectedSortBy: SortBy? = null
 
+    fun getSelectedSortBy(): SortBy? {
+        return selectedSortBy
+    }
     inner class ViewHolder(private val binding: SortByRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(sortBy: SortBy) {
             binding.sortByText.text = sortBy.name
@@ -19,6 +23,7 @@ class SortByAdapter : ListAdapter<SortBy, SortByAdapter.ViewHolder>(SortByDiffCa
             binding.sortByRadioButton.isClickable = false
             binding.root.setOnClickListener {
                 selectedPosition = adapterPosition
+                selectedSortBy = sortBy
                 notifyDataSetChanged()
             }
         }

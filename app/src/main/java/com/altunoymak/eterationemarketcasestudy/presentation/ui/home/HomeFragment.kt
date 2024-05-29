@@ -37,6 +37,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.selectFilterButton.clickWithDebounce {
             findNavController().navigate(R.id.filterBottomSheetDialogFragment)
         }
+
+        productViewModel.selectedSortBy.observe(viewLifecycleOwner) { sortBy ->
+            sortBy?.let {
+                val sortedList = productViewModel.sortProducts(it)
+                homeAdapter.submitList(sortedList)
+            }
+        }
     }
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -129,7 +136,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             (activity as MainActivity).updateBadge(count)
         }
     }
-
     override fun addProductToFavorites(product: ProductResponseItem) {
         viewLifecycleOwner.lifecycleScope.launch {
             productViewModel.addProductToFavorites(product)

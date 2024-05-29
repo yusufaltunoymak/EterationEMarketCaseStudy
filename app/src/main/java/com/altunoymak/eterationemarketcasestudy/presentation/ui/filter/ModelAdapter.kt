@@ -8,15 +8,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.altunoymak.eterationemarketcasestudy.databinding.ModelRecyclerItemBinding
 
 class ModelAdapter : ListAdapter<String, ModelAdapter.ViewHolder>(ModelDiffCallback()) {
+    private val selectedPositions = mutableSetOf<Int>()
 
     inner class ViewHolder(private val binding: ModelRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(model: String) {
-            binding.modelText.text = model
+        var itemPosition: Int = -1
 
+        init {
             binding.root.setOnClickListener {
-                binding.modelCheckBox.isChecked = !binding.modelCheckBox.isChecked
+                if (itemPosition in selectedPositions) {
+                    selectedPositions.remove(itemPosition)
+                    binding.modelCheckBox.isChecked = false
+                } else {
+                    selectedPositions.add(adapterPosition)
+                    binding.modelCheckBox.isChecked = true
+                }
             }
         }
+
+        fun bind(model: String, position: Int) {
+            this.itemPosition = position
+            binding.modelText.text = model
+            binding.modelCheckBox.isChecked = position in selectedPositions
+        }
+    }
+
+    fun getSelectedModels(): List<String> {
+        return selectedPositions.map { position -> getItem(position) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,7 +42,7 @@ class ModelAdapter : ListAdapter<String, ModelAdapter.ViewHolder>(ModelDiffCallb
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
     class ModelDiffCallback : DiffUtil.ItemCallback<String>() {

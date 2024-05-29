@@ -59,6 +59,10 @@ class FilterBottomSheetDialogFragment : Fragment() {
         binding.filterToolbar.navigationIconSetOnClickListener {
             it.findNavController().popBackStack()
         }
+        binding.applyFiltersButton.setOnClickListener {
+            productViewModel.selectedSortBy.value = sortByAdapter.getSelectedSortBy()
+            findNavController().popBackStack()
+        }
     }
 
     override fun onDestroyView() {
