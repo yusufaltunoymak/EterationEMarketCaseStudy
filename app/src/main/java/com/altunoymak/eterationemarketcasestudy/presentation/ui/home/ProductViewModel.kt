@@ -9,6 +9,7 @@ import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductRespons
 import com.altunoymak.eterationemarketcasestudy.data.response.ResponseStatus
 import com.altunoymak.eterationemarketcasestudy.data.usecase.AddFavoriteProductUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetAllProductsUseCase
+import com.altunoymak.eterationemarketcasestudy.data.usecase.GetCartItemCountUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetFavoriteProductUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.InsertProductToDatabase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.RemoveFavoriteProductUseCase
@@ -27,7 +28,8 @@ class ProductViewModel @Inject constructor(
     private val addFavoriteProductUseCase: AddFavoriteProductUseCase,
     private val removeFavoriteProductUseCase: RemoveFavoriteProductUseCase,
     private val getFavoriteProductUseCase: GetFavoriteProductUseCase,
-    private val insertProductToDatabase: InsertProductToDatabase
+    private val insertProductToDatabase: InsertProductToDatabase,
+    private val getCartItemCountUseCase: GetCartItemCountUseCase
     ) : ViewModel() {
     private var _viewState = MutableStateFlow(ProductViewState())
     val viewState = _viewState.asStateFlow()
@@ -35,13 +37,13 @@ class ProductViewModel @Inject constructor(
     private var _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
+    private val _cartItemCount = MutableLiveData<Int>(0)
+    val cartItemCount: LiveData<Int> = _cartItemCount
+
     private var currentPage = 0
 
     private val itemsPerPage = 4
 
-    fun getItemsPerPage(): Int {
-        return itemsPerPage
-    }
     fun setSearchText(text: String) {
         _searchText.value = text
     }
@@ -153,6 +155,7 @@ class ProductViewModel @Inject constructor(
                                 isInsertDatabase = false
                             )
                         }
+                        getCartItemCount()
                     }
 
                     ResponseStatus.LOADING -> {
@@ -174,6 +177,13 @@ class ProductViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+        }
+    }
+    fun getCartItemCount() {
+        viewModelScope.launch {
+            getCartItemCountUseCase().collect { count ->
+                _cartItemCount.postValue(count)
             }
         }
     }

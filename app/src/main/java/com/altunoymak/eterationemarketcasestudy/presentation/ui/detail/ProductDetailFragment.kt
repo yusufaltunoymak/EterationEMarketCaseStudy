@@ -17,13 +17,13 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(FragmentProductDetailBinding::inflate) {
-    private val args : ProductDetailFragmentArgs by navArgs()
-    private val detailViewModel : DetailViewModel by viewModels()
+    private val args: ProductDetailFragmentArgs by navArgs()
+    private val detailViewModel: DetailViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val product = args.products
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            if(!product.image.isNullOrEmpty()){
+            if (!product.image.isNullOrEmpty()) {
                 productIv.downloadFromUrl(product.image, requireContext())
             }
             detailProductNameTv.text = product.name
@@ -51,8 +51,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(Fragmen
                     val product = args.products
                     if (favoriteIv.isSelected) {
                         detailViewModel.removeFavoriteProduct(product.id!!)
-                    }
-                    else {
+                    } else {
                         detailViewModel.addProductToFavorites(convertResponseItemToEntity(product))
                     }
                     favoriteIv.isSelected = !favoriteIv.isSelected

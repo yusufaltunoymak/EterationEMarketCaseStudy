@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.altunoymak.eterationemarketcasestudy.MainActivity
 import com.altunoymak.eterationemarketcasestudy.R
 import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
@@ -31,6 +32,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setupScrollListener()
         setupSearchBar()
         observeSearchView()
+        observeCartItemCount()
     }
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -116,6 +118,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             }
         })
     }
+
+    private fun observeCartItemCount() {
+        productViewModel.cartItemCount.observe(viewLifecycleOwner) { count ->
+            binding.textViewItemCount.text = count.toString()
+            (activity as MainActivity).updateBadge(count)
+        }
+    }
+
     override fun addProductToFavorites(product: ProductResponseItem) {
         viewLifecycleOwner.lifecycleScope.launch {
             productViewModel.addProductToFavorites(product)
