@@ -8,5 +8,6 @@ data class ProductDatabaseViewState(
     val productList : List<Product>? = null,
     val isFavorited: Boolean = false,
     val quantity : Int = 0,
+    val isCompleteOrder : Boolean = false,
     val errorMessage : String? = null
 )
