@@ -71,7 +71,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 viewState.apply {
                     binding.apply {
                         products.let { productsList ->
-                            homeAdapter.submitList(productsList)
+                            if (homeAdapter.currentList.isEmpty()) {
+                                homeAdapter.submitList(productsList)
+                            }
                         }
                         isLoading?.let {
                             if (it) {
@@ -148,6 +150,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        productViewModel.getAllProducts()
     }
 
     private fun observeCartItemCount() {
