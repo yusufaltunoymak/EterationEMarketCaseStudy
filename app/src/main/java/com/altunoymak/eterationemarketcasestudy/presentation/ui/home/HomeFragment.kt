@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
@@ -16,15 +17,15 @@ import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentHomeBinding
+import com.altunoymak.eterationemarketcasestudy.presentation.ui.filter.FilterBottomSheetDialogFragment
 import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate),ProductActions {
-    private val productViewModel : ProductViewModel by viewModels()
+    private val productViewModel : ProductViewModel by activityViewModels()
     private lateinit var homeAdapter: HomeAdapter
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
@@ -33,13 +34,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setupSearchBar()
         observeSearchView()
         observeCartItemCount()
+        binding.selectFilterButton.clickWithDebounce {
+            findNavController().navigate(R.id.filterBottomSheetDialogFragment)
+        }
     }
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             productViewModel.viewState.collect { viewState ->
                 viewState.apply {
                     binding.apply {
-                        products?.let { productsList ->
+                        products.let { productsList ->
                             homeAdapter.submitList(productsList)
                         }
                         isLoading?.let {

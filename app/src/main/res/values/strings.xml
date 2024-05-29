@@ -20,4 +20,9 @@
     <string name="complete_text">Complete</string>
     <string name="not_found_fav">Not Found Favorite Product</string>
     <string name="product_added_to_cart_text">Product Added to Cart</string>
+    <string name="filter_text">Filter</string>
+    <string name="sort_by_text">Sort by:</string>
+    <string name="brand_text">Brand:</string>
+    <string name="model_text">Model:</string>
+    <string name="apply_filters_text">Apply Filters</string>
 </resources>

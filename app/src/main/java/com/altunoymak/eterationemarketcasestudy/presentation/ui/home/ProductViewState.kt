@@ -6,5 +6,7 @@ data class ProductViewState(
     val isLoading: Boolean? = null,
     val products: List<ProductResponseItem> = emptyList(),
     val isInsertDatabase : Boolean? = null,
+    val modelList: List<String> = emptyList(),
+    val brandList: List<String> = emptyList(),
     val errorMessage: String? = null
 )
