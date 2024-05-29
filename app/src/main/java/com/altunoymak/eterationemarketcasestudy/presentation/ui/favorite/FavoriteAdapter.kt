@@ -9,7 +9,7 @@ import com.altunoymak.eterationemarketcasestudy.data.local.model.FavoriteProduct
 import com.altunoymak.eterationemarketcasestudy.databinding.FavoriteRecyclerItemBinding
 import com.altunoymak.eterationemarketcasestudy.util.downloadFromUrl
 
-class FavoriteAdapter() : ListAdapter<FavoriteProduct, FavoriteAdapter.ViewHolder>(FavoriteDiffCallBack()) {
+class FavoriteAdapter(val onItemClicked: (FavoriteProduct) -> Unit) : ListAdapter<FavoriteProduct, FavoriteAdapter.ViewHolder>(FavoriteDiffCallBack()) {
     inner class ViewHolder(private val binding: FavoriteRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: FavoriteProduct) {
@@ -17,6 +17,9 @@ class FavoriteAdapter() : ListAdapter<FavoriteProduct, FavoriteAdapter.ViewHolde
                 favoriteProductTv.text = product.name
                 favoriteProductDetailTv.text = product.description
                 favoriteIv.downloadFromUrl(product.image, binding.root.context)
+                root.setOnClickListener {
+                    onItemClicked.invoke(product)
+                }
             }
         }
     }

@@ -74,7 +74,7 @@
                 app:layout_constraintTop_toBottomOf="@id/favoriteProductDetailTv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginHorizontal="12dp"/>
+                android:layout_marginHorizontal="@dimen/size6"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -39,10 +39,23 @@ fun productToResponseItem(product: ProductResponseItem, isFavorite: Boolean): Fa
         price = product.price!!,
         image = product.image!!,
         description = product.description!!,
-        isFavorite = isFavorite!!,
+        isFavorite = isFavorite,
         brand = product.brand!!,
         createdAt = product.createdAt!!,
         model = product.model!!,
         productId = product.id!!
+    )
+}
+
+fun FavoriteProduct.toProductResponseItem(): ProductResponseItem {
+    return ProductResponseItem(
+        brand = this.brand,
+        createdAt = this.createdAt,
+        description = this.description,
+        id = this.productId,
+        image = this.image,
+        model = this.model,
+        name = this.name,
+        price = this.price
     )
 }
