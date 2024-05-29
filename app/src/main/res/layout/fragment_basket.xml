@@ -24,13 +24,13 @@
         android:layout_height="@dimen/size0"
         android:layout_marginHorizontal="@dimen/size8"
         android:layout_marginTop="@dimen/size4"
-        app:layout_constraintBottom_toTopOf="@+id/statikTotalPriceTv"
+        app:layout_constraintBottom_toTopOf="@+id/staticTotalPriceTv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/basketToolbar" />
 
     <TextView
-        android:id="@+id/statikTotalPriceTv"
+        android:id="@+id/staticTotalPriceTv"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
@@ -65,5 +65,20 @@
         android:textSize="@dimen/body3"
         app:layout_constraintBottom_toBottomOf="@+id/priceTv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/statikTotalPriceTv" />
+        app:layout_constraintTop_toTopOf="@+id/staticTotalPriceTv" />
+
+    <TextView
+        android:id="@+id/emptyListTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/not_found_product_in_cart_text"
+        android:visibility="gone"
+        android:textSize="@dimen/body6"
+        android:textColor="@color/mainBlue"
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins_semibold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
