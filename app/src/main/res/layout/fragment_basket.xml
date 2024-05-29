@@ -54,7 +54,7 @@
         tools:text="123123 ₺" />
 
     <Button
-        android:id="@+id/addToCardButton"
+        android:id="@+id/completeButton"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/size8"

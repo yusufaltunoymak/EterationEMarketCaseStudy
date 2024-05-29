@@ -35,7 +35,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         observeSearchView()
         observeCartItemCount()
         binding.selectFilterButton.clickWithDebounce {
+            binding.homeProgressBar.visibility = View.VISIBLE
             findNavController().navigate(R.id.filterBottomSheetDialogFragment)
+            binding.homeProgressBar.visibility = View.GONE
         }
 
         productViewModel.selectedSortBy.observe(viewLifecycleOwner) { sortBy ->
