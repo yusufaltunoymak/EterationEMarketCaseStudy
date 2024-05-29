@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentHomeBinding
+import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,9 +28,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         setupScrollListener()
         setupSearchBar()
         observeSearchView()
-
     }
-
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             productViewModel.viewState.collect { viewState ->
@@ -45,8 +44,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                                 homeProgressBar.visibility = View.GONE
                             }
                             errorMessage?.let {errorMessage ->
+                                retryButton.clickWithDebounce {
+                                    productViewModel.getAllProducts()
+                                    errorText.visibility = View.GONE
+                                    retryButton.visibility = View.GONE
+                                }
                                 if (errorMessage.isNotBlank()) {
                                     errorText.visibility = View.VISIBLE
+                                    retryButton.visibility = View.VISIBLE
+                                    homeProgressBar.visibility = View.GONE
                                     errorText.text = errorMessage
                                 } else {
                                     errorText.visibility = View.GONE

@@ -57,7 +57,7 @@ class ProductViewModel @Inject constructor(
         getAllProducts()
     }
 
-    private fun getAllProducts() {
+    fun getAllProducts() {
         viewModelScope.launch {
             getAllProductsUseCase.invoke().collect { response ->
                 when (response.status) {
