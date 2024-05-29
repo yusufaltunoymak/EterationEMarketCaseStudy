@@ -1,6 +1,7 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +62,10 @@ class FilterBottomSheetDialogFragment : Fragment() {
         }
         binding.applyFiltersButton.setOnClickListener {
             productViewModel.selectedSortBy.value = sortByAdapter.getSelectedSortBy()
+            val selectedBrands = brandAdapter.getSelectedBrands()
+            productViewModel.selectedBrands.value = selectedBrands
+            val selectedModels = modelAdapter.getSelectedModels()
+            productViewModel.selectedModels.value = selectedModels
             findNavController().popBackStack()
         }
     }

@@ -13,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigation_icon="@drawable/ic_close"
         app:navigation_icon_visibility="true"
+        app:toolBarBackgroundColor="@color/white"
         app:toolBarText="@string/filter_text"
         app:toolBarTextColor="@color/black" />
 

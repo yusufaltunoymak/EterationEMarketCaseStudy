@@ -1,5 +1,6 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -42,6 +43,9 @@ class ProductViewModel @Inject constructor(
     val cartItemCount: LiveData<Int> = _cartItemCount
 
     val selectedSortBy = MutableLiveData<SortBy>()
+    val selectedBrands: MutableLiveData<List<String>> = MutableLiveData()
+    val selectedModels = MutableLiveData<List<String>>()
+
 
 
     private var currentPage = 0
@@ -204,4 +208,26 @@ class ProductViewModel @Inject constructor(
             SortBy.PRICE_LOW_TO_HIGH -> allProducts.sortedBy { it.price }
         }
     }
+
+    fun getFilteredBrands(): List<ProductResponseItem> {
+        val selectedBrands = selectedBrands.value ?: emptyList()
+        Log.d("ProductViewModel", "Selected Brands: $selectedBrands")
+        val currentProducts = viewState.value.products
+        val filteredProducts = currentProducts.filter { product ->
+            product.brand in selectedBrands
+        }
+        Log.d("ProductViewModel", "Filtered Products: $filteredProducts")
+        return filteredProducts
+    }
+    fun getFilteredModels(): List<ProductResponseItem> {
+        val selectedModels = selectedModels.value ?: emptyList()
+        Log.d("ProductViewModel", "Selected Models: $selectedModels")
+        val currentProducts = viewState.value.products
+        val filteredProducts = currentProducts.filter { product ->
+            product.model in selectedModels
+        }
+        Log.d("ProductViewModel", "Filtered Products: $filteredProducts")
+        return filteredProducts
+    }
+
 }
