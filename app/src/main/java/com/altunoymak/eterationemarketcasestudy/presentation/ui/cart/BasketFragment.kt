@@ -33,6 +33,20 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
                         productList?.let { productsList ->
                             basketAdapter.submitList(productsList)
                             calculateTotalPrice(productsList)
+                            if(productsList.isEmpty()) {
+                                basketRv.visibility = View.GONE
+                                priceTv.visibility = View.GONE
+                                staticTotalPriceTv.visibility = View.GONE
+                                completeButton.visibility = View.GONE
+                                emptyListTv.visibility = View.VISIBLE
+                            }
+                            else {
+                                basketRv.visibility = View.VISIBLE
+                                staticTotalPriceTv.visibility = View.VISIBLE
+                                priceTv.visibility = View.VISIBLE
+                                completeButton.visibility = View.VISIBLE
+                                emptyListTv.visibility = View.GONE
+                            }
                         }
                         completeButton.clickWithDebounce {
                             productList?.let { productsList ->

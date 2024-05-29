@@ -27,4 +27,5 @@
     <string name="apply_filters_text">Apply Filters</string>
     <string name="delete_order_text">Delete Order</string>
     <string name="not_found_order">Not Found Order</string>
+    <string name="not_found_product_in_cart_text">Not Found Product in Cart</string>
 </resources>
