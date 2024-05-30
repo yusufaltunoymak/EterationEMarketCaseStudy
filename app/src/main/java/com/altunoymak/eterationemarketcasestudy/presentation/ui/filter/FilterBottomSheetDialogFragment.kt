@@ -12,7 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentFilterBottomSheetDialogBinding
-import com.altunoymak.eterationemarketcasestudy.presentation.ui.home.ProductViewModel
+import com.altunoymak.eterationemarketcasestudy.presentation.ui.ProductViewModel
 import com.altunoymak.eterationemarketcasestudy.util.SortBy
 import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint

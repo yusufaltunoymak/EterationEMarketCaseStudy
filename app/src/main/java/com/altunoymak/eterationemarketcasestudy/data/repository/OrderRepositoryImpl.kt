@@ -2,7 +2,6 @@ package com.altunoymak.eterationemarketcasestudy.data.repository
 
 import com.altunoymak.eterationemarketcasestudy.data.local.OrderDao
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Order
-import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.response.Response
 import com.altunoymak.eterationemarketcasestudy.domain.repository.OrderRepository
 import kotlinx.coroutines.flow.Flow

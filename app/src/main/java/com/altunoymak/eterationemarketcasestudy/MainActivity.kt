@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.altunoymak.eterationemarketcasestudy.databinding.ActivityMainBinding
-import com.altunoymak.eterationemarketcasestudy.presentation.ui.home.ProductViewModel
+import com.altunoymak.eterationemarketcasestudy.presentation.ui.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
