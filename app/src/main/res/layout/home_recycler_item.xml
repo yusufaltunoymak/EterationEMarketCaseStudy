@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/itemCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="@dimen/size10"
+        app:cardCornerRadius="@dimen/size5"
+        android:layout_margin="@dimen/size1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardConstraint"
+            android:layout_width="match_parent"
+            android:elevation="@dimen/size20"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/itemImage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginStart="@dimen/size8"
+                android:layout_marginEnd="@dimen/size8"
+                android:scaleType="centerCrop"
+                android:src="@drawable/person_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/favoriteIcon"
+                android:layout_width="@dimen/size12"
+                android:layout_height="@dimen/size12"
+                android:layout_alignEnd="@+id/itemImage"
+                android:layout_marginTop="@dimen/size4"
+                android:layout_marginEnd="@dimen/size4"
+                android:src="@drawable/favorite_icon_selector"
+                app:layout_constraintEnd_toEndOf="@+id/itemImage"
+                app:layout_constraintTop_toTopOf="@+id/itemImage" />
+
+            <TextView
+                android:id="@+id/productPriceTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size8"
+                android:layout_marginEnd="@dimen/size8"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/mainBlue"
+                android:textSize="@dimen/body5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemImage"
+                tools:text="@string/search_text" />
+
+            <TextView
+                android:id="@+id/productNameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size8"
+                android:layout_marginEnd="@dimen/size8"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_semibold"
+                android:maxLines="1"
+                android:textSize="@dimen/body5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productPriceTv"
+                tools:text="@tools:sample/lorem" />
+
+            <Button
+                android:id="@+id/buyButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size4"
+                android:fontFamily="@font/poppins"
+                android:text="@string/add_to_card_text"
+                android:textAllCaps="false"
+                android:textSize="@dimen/body3"
+                app:layout_constraintEnd_toEndOf="@+id/productNameTv"
+                app:layout_constraintStart_toStartOf="@+id/productNameTv"
+                app:layout_constraintTop_toBottomOf="@+id/productNameTv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

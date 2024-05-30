@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.ui.home.HomeFragment">
+
+    <com.altunoymak.eterationemarketcasestudy.util.component.CustomToolBar
+        android:id="@+id/homeToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigation_icon_visibility="false"
+        app:toolBarBackgroundColor="@color/mainBlue"
+        app:toolBarText="@string/e_market_text"
+        app:toolBarTextColor="@color/white" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size5"
+        android:layout_marginEnd="@dimen/size5"
+        android:layout_marginTop="@dimen/size5"
+        app:cardCornerRadius="@dimen/size3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeToolBar">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@color/white"
+            app:queryHint="@string/search_text"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/filtersText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size10"
+        android:text="@string/filtersText"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body5"
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins"
+        app:layout_constraintStart_toStartOf="@+id/searchCardView"
+        app:layout_constraintTop_toBottomOf="@+id/searchCardView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/selectFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/size8"
+        android:layout_marginBottom="@dimen/size4"
+        android:background="@color/grey"
+        android:fontFamily="@font/poppins"
+        android:paddingHorizontal="@dimen/size15"
+        android:paddingVertical="@dimen/size0"
+        android:text="@string/select_filter_text"
+        android:textAllCaps="false"
+        android:textSize="@dimen/body2"
+        app:layout_constraintBottom_toBottomOf="@+id/filtersText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/filtersText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeRv"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
+        android:layout_marginTop="@dimen/size4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtersText" />
+
+    <com.altunoymak.eterationemarketcasestudy.util.component.CustomProgressBar
+        android:id="@+id/homeProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/retry_text"
+        android:textSize="@dimen/body5"
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/mainBlue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/retryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size8"
+        android:text="@string/retry_text"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/errorText" />
+
+    <TextView
+        android:id="@+id/textViewItemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="0"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="16sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
