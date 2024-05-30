@@ -83,14 +83,14 @@ class ProductViewModel @Inject constructor(
                     ResponseStatus.SUCCESS -> {
                         response.data?.let {
                             allProducts = response.data
-                            val modelList = allProducts.map { it.model ?: "" }
-                            val brandList = allProducts.map { it.brand ?: "" }
+                            val modelList = allProducts.map { it.model ?: "" }.toSet()
+                            val brandList = allProducts.map { it.brand ?: "" }.toSet()
                             _viewState.update { viewState ->
                                 viewState.copy(
                                     isLoading = false,
                                     products = allProducts,
-                                    modelList = modelList,
-                                    brandList = brandList
+                                    modelList = modelList.toList(),
+                                    brandList = brandList.toList()
                                 )
                             }
                             loadMoreItems()
