@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +42,7 @@ class FilterBottomSheetDialogFragment : Fragment() {
         sortByAdapter = SortByAdapter()
         brandAdapter = BrandAdapter()
         modelAdapter = ModelAdapter()
+        setupSearchViews()
 
         binding.sortByRv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.brandRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -68,6 +70,46 @@ class FilterBottomSheetDialogFragment : Fragment() {
             productViewModel.selectedModels.value = selectedModels
             findNavController().popBackStack()
         }
+    }
+
+    private fun getFilteredBrandNames(searchText: String): List<String> {
+        val allBrands = productViewModel.viewState.value.brandList
+        return allBrands.filter { it.contains(searchText, ignoreCase = true) }
+    }
+
+    private fun getFilteredModelNames(searchText: String): List<String> {
+        val allModels = productViewModel.viewState.value.modelList
+        return allModels.filter { it.contains(searchText, ignoreCase = true) }
+    }
+
+    private fun setupSearchViews() {
+        binding.brandSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    val filteredBrandNames = getFilteredBrandNames(it)
+                    brandAdapter.submitList(filteredBrandNames)
+                }
+                return true
+            }
+        })
+
+        binding.modelSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    val filteredModelNames = getFilteredModelNames(it)
+                    modelAdapter.submitList(filteredModelNames)
+                }
+                return true
+            }
+        })
     }
 
     override fun onDestroyView() {
