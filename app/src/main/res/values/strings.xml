@@ -28,4 +28,6 @@
     <string name="delete_order_text">Delete Order</string>
     <string name="not_found_order">Not Found Order</string>
     <string name="not_found_product_in_cart_text">Not Found Product in Cart</string>
+    <string name="are_you_sure_delete_text">Are you sure you want to delete this item?</string>
+    <string name="yes_text">Yes</string>
 </resources>
