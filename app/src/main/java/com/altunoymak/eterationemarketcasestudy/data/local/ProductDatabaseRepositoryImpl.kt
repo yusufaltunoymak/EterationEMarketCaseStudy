@@ -23,7 +23,6 @@ class ProductDatabaseRepositoryImpl @Inject constructor(private val dao : Produc
         }
         awaitClose()
     }
-
     override suspend fun insertProduct(product: Product): Flow<Response<Boolean>> {
         return flow {
             try {
@@ -36,7 +35,6 @@ class ProductDatabaseRepositoryImpl @Inject constructor(private val dao : Produc
             }
         }
     }
-
     override suspend fun updateProductQuantity(id: Int, quantity: Int): Flow<Response<Boolean>> {
         return flow {
             try {
@@ -48,7 +46,6 @@ class ProductDatabaseRepositoryImpl @Inject constructor(private val dao : Produc
             }
         }
     }
-
     override suspend fun deleteProduct(id: Int): Flow<Response<Boolean>> {
         return flow {
             try {

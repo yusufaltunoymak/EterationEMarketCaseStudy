@@ -16,6 +16,7 @@ import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentHomeBinding
+import com.altunoymak.eterationemarketcasestudy.presentation.ui.ProductViewModel
 import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -150,11 +151,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        productViewModel.getAllProducts()
     }
 
     private fun observeCartItemCount() {

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altunoymak.eterationemarketcasestudy.data.usecase.DeleteOrderUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetAllOrdersUseCase
-import com.altunoymak.eterationemarketcasestudy.presentation.ui.favorite.FavoriteViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +22,7 @@ class ProfileViewModel @Inject constructor(
         getAllOrders()
     }
 
-    fun getAllOrders() = viewModelScope.launch {
+    private fun getAllOrders() = viewModelScope.launch {
         getAllOrdersUseCase.invoke().collect { orderList ->
             _viewState.value = ProfileViewState(isLoading = false, errorMessage = null, orderList = orderList)
         }

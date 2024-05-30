@@ -1,4 +1,4 @@
-package com.altunoymak.eterationemarketcasestudy.presentation.ui.home
+package com.altunoymak.eterationemarketcasestudy.presentation.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +13,7 @@ import com.altunoymak.eterationemarketcasestudy.data.usecase.GetCartItemCountUse
 import com.altunoymak.eterationemarketcasestudy.data.usecase.GetFavoriteProductUseCase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.InsertProductToDatabase
 import com.altunoymak.eterationemarketcasestudy.data.usecase.RemoveFavoriteProductUseCase
+import com.altunoymak.eterationemarketcasestudy.presentation.ui.home.ProductViewState
 import com.altunoymak.eterationemarketcasestudy.util.SortBy
 import com.altunoymak.eterationemarketcasestudy.util.productToResponseItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,8 +45,6 @@ class ProductViewModel @Inject constructor(
     val selectedSortBy = MutableLiveData<SortBy>()
     val selectedBrands: MutableLiveData<List<String>> = MutableLiveData()
     val selectedModels = MutableLiveData<List<String>>()
-
-
 
     private var currentPage = 0
 
