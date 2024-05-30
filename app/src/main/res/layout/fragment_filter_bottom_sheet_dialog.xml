@@ -4,18 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.altunoymak.eterationemarketcasestudy.util.component.CustomToolBar
-        android:id="@+id/filterToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_close"
+        android:layout_margin="@dimen/size3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigation_icon="@drawable/ic_close"
-        app:navigation_icon_visibility="true"
-        app:toolBarBackgroundColor="@color/white"
-        app:toolBarText="@string/filter_text"
-        app:toolBarTextColor="@color/black" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/filterHeaderTv"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:text="@string/filter_text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/header4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/closeButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
@@ -24,7 +33,7 @@
         app:layout_constraintBottom_toTopOf="@+id/applyFiltersButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filterToolbar">
+        app:layout_constraintTop_toBottomOf="@+id/closeButton">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,12 +109,16 @@
 
     <Button
         android:id="@+id/applyFiltersButton"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:text="@string/apply_filters_text"
         android:layout_gravity="end"
-        android:layout_marginTop="@dimen/size8"
+        android:layout_margin="@dimen/size8"
+        android:text="@string/apply_filters_text"
+        android:textSize="@dimen/body5"
+        android:fontFamily="@font/poppins_semibold"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

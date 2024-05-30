@@ -1,7 +1,6 @@
 package com.altunoymak.eterationemarketcasestudy.presentation.ui.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentFilterBottomSheetDialogBinding
 import com.altunoymak.eterationemarketcasestudy.presentation.ui.home.ProductViewModel
 import com.altunoymak.eterationemarketcasestudy.util.SortBy
+import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -57,7 +57,7 @@ class FilterBottomSheetDialogFragment : Fragment() {
                 modelAdapter.submitList(state.modelList)
             }
         }
-        binding.filterToolbar.navigationIconSetOnClickListener {
+        binding.closeButton.clickWithDebounce {
             it.findNavController().popBackStack()
         }
         binding.applyFiltersButton.setOnClickListener {
