@@ -74,7 +74,6 @@
         android:id="@+id/homeRv"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
-        android:layout_marginHorizontal="@dimen/size8"
         android:layout_marginTop="@dimen/size4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

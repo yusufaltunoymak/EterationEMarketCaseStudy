@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentFilterBottomSheetDialogBinding
 import com.altunoymak.eterationemarketcasestudy.presentation.ui.home.ProductViewModel
 import com.altunoymak.eterationemarketcasestudy.util.SortBy
+import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -56,11 +57,15 @@ class FilterBottomSheetDialogFragment : Fragment() {
                 modelAdapter.submitList(state.modelList)
             }
         }
-        binding.filterToolbar.navigationIconSetOnClickListener {
+        binding.closeButton.clickWithDebounce {
             it.findNavController().popBackStack()
         }
         binding.applyFiltersButton.setOnClickListener {
             productViewModel.selectedSortBy.value = sortByAdapter.getSelectedSortBy()
+            val selectedBrands = brandAdapter.getSelectedBrands()
+            productViewModel.selectedBrands.value = selectedBrands
+            val selectedModels = modelAdapter.getSelectedModels()
+            productViewModel.selectedModels.value = selectedModels
             findNavController().popBackStack()
         }
     }

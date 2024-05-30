@@ -42,6 +42,9 @@ class ProductViewModel @Inject constructor(
     val cartItemCount: LiveData<Int> = _cartItemCount
 
     val selectedSortBy = MutableLiveData<SortBy>()
+    val selectedBrands: MutableLiveData<List<String>> = MutableLiveData()
+    val selectedModels = MutableLiveData<List<String>>()
+
 
 
     private var currentPage = 0
@@ -203,5 +206,22 @@ class ProductViewModel @Inject constructor(
             SortBy.PRICE_HIGH_TO_LOW -> allProducts.sortedByDescending { it.price }
             SortBy.PRICE_LOW_TO_HIGH -> allProducts.sortedBy { it.price }
         }
+    }
+
+    fun getFilteredBrands(): List<ProductResponseItem> {
+        val selectedBrands = selectedBrands.value ?: emptyList()
+        val currentProducts = viewState.value.products
+        val filteredProducts = currentProducts.filter { product ->
+            product.brand in selectedBrands
+        }
+        return filteredProducts
+    }
+    fun getFilteredModels(): List<ProductResponseItem> {
+        val selectedModels = selectedModels.value ?: emptyList()
+        val currentProducts = viewState.value.products
+        val filteredProducts = currentProducts.filter { product ->
+            product.model in selectedModels
+        }
+        return filteredProducts
     }
 }

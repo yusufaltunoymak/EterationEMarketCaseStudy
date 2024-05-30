@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,7 +16,6 @@ import com.altunoymak.eterationemarketcasestudy.base.BaseFragment
 import com.altunoymak.eterationemarketcasestudy.data.local.model.Product
 import com.altunoymak.eterationemarketcasestudy.data.remote.model.ProductResponseItem
 import com.altunoymak.eterationemarketcasestudy.databinding.FragmentHomeBinding
-import com.altunoymak.eterationemarketcasestudy.presentation.ui.filter.FilterBottomSheetDialogFragment
 import com.altunoymak.eterationemarketcasestudy.util.clickWithDebounce
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -43,7 +41,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         productViewModel.selectedSortBy.observe(viewLifecycleOwner) { sortBy ->
             sortBy?.let {
                 val sortedList = productViewModel.sortProducts(it)
-                homeAdapter.submitList(sortedList)
+                if (sortedList.isNotEmpty()) {
+                    homeAdapter.submitList(sortedList)
+                }
+            }
+        }
+
+        productViewModel.selectedBrands.observe(viewLifecycleOwner) { selectedBrands ->
+            selectedBrands?.let {
+                val filteredBrands = productViewModel.getFilteredBrands()
+                if (filteredBrands.isNotEmpty()) {
+                    homeAdapter.submitList(filteredBrands)
+                }
+            }
+        }
+
+        productViewModel.selectedModels.observe(viewLifecycleOwner) { selectedModels ->
+            selectedModels?.let {
+                val filteredModels = productViewModel.getFilteredModels()
+                if (filteredModels.isNotEmpty()) {
+                    homeAdapter.submitList(filteredModels)
+                }
             }
         }
     }
@@ -53,7 +71,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 viewState.apply {
                     binding.apply {
                         products.let { productsList ->
-                            homeAdapter.submitList(productsList)
+                            if (homeAdapter.currentList.isEmpty()) {
+                                homeAdapter.submitList(productsList)
+                            }
                         }
                         isLoading?.let {
                             if (it) {
@@ -130,6 +150,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 }
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        productViewModel.getAllProducts()
     }
 
     private fun observeCartItemCount() {
